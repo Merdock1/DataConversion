@@ -1,8 +1,0 @@
-mergeInt8ToUint16	KEYWORD1
-splitUint16ToInt8	KEYWORD1
-mergeUint8ToUint16	KEYWORD1
-splitUint16ToUint8	KEYWORD1
-mergeUint16ToInt32	KEYWORD1
-splitInt32ToUint16	KEYWORD1
-mergeUint16ToUint32	KEYWORD1
-splitUint32ToUint16	KEYWORD1

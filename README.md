@@ -1,3 +1,4 @@
+## La documentacion no esta actualizada!!!.
 ## Utilidad para trabajar con distintos tipos de datos en paquetes de 16 bit.
 
 Cada registro de retencion trabaja con palabras de 16 bits

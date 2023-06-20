@@ -37,7 +37,7 @@ Tabla 1.
 No hay un estandar definido para el alamcenamiento de valores mayores a 16 bits en los registros Modbus pero si una convencion.
 Aqui una explicacion grafica de como se almacenan normalmente los registros de 32 bits en 2 registros de 16 bits.
 
-![figura1](../resource/figura1.png)
+![figura1](./resource/figura1.png)
 
 Figura 1.
 

@@ -144,3 +144,31 @@ void DataConversion::splitDoubleToUint16(double dblValue, uint16_t &dblPart1, ui
     dblPart3 = (uint16_t)(mergedValue >> 16);
     dblPart4 = (uint16_t)mergedValue;
 }
+
+// Sets a specific bit in a uint16_t value.
+uint16_t DataConversion::setBit(uint16_t data, uint8_t bitPosition)
+{
+    if (bitPosition >= 16) return data; // Or handle error appropriately
+    return data | (1 << bitPosition);
+}
+
+// Clears a specific bit in a uint16_t value.
+uint16_t DataConversion::clearBit(uint16_t data, uint8_t bitPosition)
+{
+    if (bitPosition >= 16) return data; // Or handle error appropriately
+    return data & ~(1 << bitPosition);
+}
+
+// Reads a specific bit from a uint16_t value.
+bool DataConversion::readBit(uint16_t data, uint8_t bitPosition)
+{
+    if (bitPosition >= 16) return false; // Or handle error appropriately
+    return (data >> bitPosition) & 1;
+}
+
+// Toggles a specific bit in a uint16_t value.
+uint16_t DataConversion::toggleBit(uint16_t data, uint8_t bitPosition)
+{
+    if (bitPosition >= 16) return data; // Or handle error appropriately
+    return data ^ (1 << bitPosition);
+}

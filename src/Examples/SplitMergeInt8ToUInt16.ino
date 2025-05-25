@@ -21,9 +21,6 @@
 #include <ModbusIP_ESP8266.h>
 #include <DataConversion.h>
 
-// Create an instance of the DataConversion class
-DataConversion dtConv;
-
 /*
 The enum function is used to create an enumerated data type.
 In this case, it is creating the MbipRegister enumeration type.
@@ -94,7 +91,7 @@ void setup()
   delay(500);
 
   // The mergeUint8ToUint16 function combines two 8-bit unsigned variables into one 16-bit unsigned variable.
-  varMergeInt8ToUInt16 = dtConv.mergeInt8ToUint16(varI8a, varI8b);
+  varMergeInt8ToUInt16 = DataConversion::mergeInt8ToUint16(varI8a, varI8b);
   Serial.println("Value merge varI8a + varI8b ");
   delay(500);
   // Write value to Modbus variable
@@ -130,7 +127,7 @@ void loop()
 
   
   // The splitUint16ToInt8 function divides a 16-bit unsigned variable into two 8-bit signed variables.
-  dtConv.splitUint16ToInt8(varMergeInt8ToUInt16, varI8a, varI8b);
+  DataConversion::splitUint16ToInt8(varMergeInt8ToUInt16, varI8a, varI8b);
   
   /* *Print the values of the variables* */
   // Get the current time

@@ -14,12 +14,12 @@
 */
 
 /*
-These write and read bit functions in variables are redundant.
-Since within the arduino framework they exist.
-bitRead() to read a specific bit from a variable.
-https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitread/
-bitWrite() to write a specific bit from a variable.
-https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitwrite/
+The DataConversion library now provides platform-independent bit manipulation functions:
+- DataConversion::readBit() to read a specific bit.
+- DataConversion::setBit() to set a specific bit.
+- DataConversion::clearBit() to clear a specific bit.
+- DataConversion::toggleBit() to toggle a specific bit.
+These can be used as an alternative to Arduino's built-in bitRead() and bitWrite().
 */
 #ifdef ESP8266
 #include <ESP8266WiFi.h>
@@ -28,9 +28,6 @@ https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitwrite/
 #endif
 #include <ModbusIP_ESP8266.h>
 #include <DataConversion.h>
-
-// Create an instance of the DataConversion class
-DataConversion dtConv;
 
 /*
 The enum function is used to create an enumerated data type.
@@ -106,11 +103,11 @@ void setup()
   mb.Hreg(NR_STATE_16BIT_REGISTER, state16bitRegister);
   Serial.println("Register 0 BIN= " + String(state16bitRegister, BIN));
   delay(1500);
-  state16bitRegister = bitWrite(state16bitRegister, 7, HIGH);
-  Serial.println("Write 1 in bit 7 ");
+  state16bitRegister = DataConversion::setBit(state16bitRegister, 7);
+  Serial.println("Write 1 in bit 7 using DataConversion::setBit()");
   delay(500);
-  state16bitRegister = bitWrite(state16bitRegister, 14, HIGH);
-  Serial.println("Write 1 in bit 14 ");
+  state16bitRegister = DataConversion::setBit(state16bitRegister, 14);
+  Serial.println("Write 1 in bit 14 using DataConversion::setBit()");
   delay(500);
   mb.Hreg(NR_STATE_16BIT_REGISTER, state16bitRegister);
   Serial.println("Writing value in modbus variable ");
@@ -142,23 +139,23 @@ void loop()
   // Yield to other tasks (if any)
   yield();
 
-  // Read individual bits from the state16bitRegister and store them in corresponding variables
-  bitValue00 = bitRead(state16bitRegister, 0);  // Read bit 0 from state16bitRegister and assign its value to bitValue00
-  bitValue01 = bitRead(state16bitRegister, 1);  // Read bit 1 from state16bitRegister and assign its value to bitValue01
-  bitValue02 = bitRead(state16bitRegister, 2);  // Read bit 2 from state16bitRegister and assign its value to bitValue02
-  bitValue03 = bitRead(state16bitRegister, 3);  // Read bit 3 from state16bitRegister and assign its value to bitValue03
-  bitValue04 = bitRead(state16bitRegister, 4);  // Read bit 4 from state16bitRegister and assign its value to bitValue04
-  bitValue05 = bitRead(state16bitRegister, 5);  // Read bit 5 from state16bitRegister and assign its value to bitValue05
-  bitValue06 = bitRead(state16bitRegister, 6);  // Read bit 6 from state16bitRegister and assign its value to bitValue06
-  bitValue07 = bitRead(state16bitRegister, 7);  // Read bit 7 from state16bitRegister and assign its value to bitValue07
-  bitValue08 = bitRead(state16bitRegister, 8);  // Read bit 8 from state16bitRegister and assign its value to bitValue08
-  bitValue09 = bitRead(state16bitRegister, 9);  // Read bit 9 from state16bitRegister and assign its value to bitValue09
-  bitValue10 = bitRead(state16bitRegister, 10); // Read bit 10 from state16bitRegister and assign its value to bitValue10
-  bitValue11 = bitRead(state16bitRegister, 11); // Read bit 11 from state16bitRegister and assign its value to bitValue11
-  bitValue12 = bitRead(state16bitRegister, 12); // Read bit 12 from state16bitRegister and assign its value to bitValue12
-  bitValue13 = bitRead(state16bitRegister, 13); // Read bit 13 from state16bitRegister and assign its value to bitValue13
-  bitValue14 = bitRead(state16bitRegister, 14); // Read bit 14 from state16bitRegister and assign its value to bitValue14
-  bitValue15 = bitRead(state16bitRegister, 15); // Read bit 15 from state16bitRegister and assign its value to bitValue15
+  // Read individual bits from the state16bitRegister and store them in corresponding variables using DataConversion::readBit()
+  bitValue00 = DataConversion::readBit(state16bitRegister, 0);  // Read bit 0
+  bitValue01 = DataConversion::readBit(state16bitRegister, 1);  // Read bit 1
+  bitValue02 = DataConversion::readBit(state16bitRegister, 2);  // Read bit 2
+  bitValue03 = DataConversion::readBit(state16bitRegister, 3);  // Read bit 3
+  bitValue04 = DataConversion::readBit(state16bitRegister, 4);  // Read bit 4
+  bitValue05 = DataConversion::readBit(state16bitRegister, 5);  // Read bit 5
+  bitValue06 = DataConversion::readBit(state16bitRegister, 6);  // Read bit 6
+  bitValue07 = DataConversion::readBit(state16bitRegister, 7);  // Read bit 7
+  bitValue08 = DataConversion::readBit(state16bitRegister, 8);  // Read bit 8
+  bitValue09 = DataConversion::readBit(state16bitRegister, 9);  // Read bit 9
+  bitValue10 = DataConversion::readBit(state16bitRegister, 10); // Read bit 10
+  bitValue11 = DataConversion::readBit(state16bitRegister, 11); // Read bit 11
+  bitValue12 = DataConversion::readBit(state16bitRegister, 12); // Read bit 12
+  bitValue13 = DataConversion::readBit(state16bitRegister, 13); // Read bit 13
+  bitValue14 = DataConversion::readBit(state16bitRegister, 14); // Read bit 14
+  bitValue15 = DataConversion::readBit(state16bitRegister, 15); // Read bit 15
 
   /* *Print the values of the variables* */
   // Get the current time

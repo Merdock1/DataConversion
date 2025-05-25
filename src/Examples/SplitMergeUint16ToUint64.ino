@@ -29,9 +29,6 @@ https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitwrite/
 #include <ModbusIP_ESP8266.h>
 #include <DataConversion.h>
 
-// Create an instance of the DataConversion class
-DataConversion dtConv;
-
 /*
 The enum function is used to create an enumerated data type.
 In this case, it is creating the MbipRegister enumeration type.
@@ -119,7 +116,7 @@ void setup()
   varMergeUInt16ToUInt64 = 84294967295;
   Serial.println("Write 84294967295 in variable varMergeUInt16ToUInt64 ");
   // Separates a int64 value into four uint16_t values.
-  dtConv.splitUint64ToUint16(varMergeUInt16ToUInt64, varValueUi64Part1, varValueUi64Part2, varValueUi64Part3, varValueUi64Part4);
+  DataConversion::splitUint64ToUint16(varMergeUInt16ToUInt64, varValueUi64Part1, varValueUi64Part2, varValueUi64Part3, varValueUi64Part4);
   delay(500);
   // Write value to Modbus variable
   mb.Hreg(NR_VALUEUI64PART1, varValueUi64Part1);
@@ -174,7 +171,7 @@ void loop()
   yield();
 
   // Combines four word into a 64-bit unsigned integer.
-  varMergeUInt16ToUInt64 = dtConv.mergeUint16ToUint64(varValueUi64Part1, varValueUi64Part2, varValueUi64Part3, varValueUi64Part4);
+  varMergeUInt16ToUInt64 = DataConversion::mergeUint16ToUint64(varValueUi64Part1, varValueUi64Part2, varValueUi64Part3, varValueUi64Part4);
   
   /* *Print the values of the variables* */
   // Get the current time

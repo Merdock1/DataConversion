@@ -14,12 +14,12 @@
 */
 
 /*
-These write and read bit functions in variables are redundant.
-Since within the arduino framework they exist.
-bitRead() to read a specific bit from a variable.
-https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitread/
-bitWrite() to write a specific bit from a variable.
-https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitwrite/
+The DataConversion library now provides platform-independent bit manipulation functions:
+- DataConversion::readBit() to read a specific bit.
+- DataConversion::setBit() to set a specific bit.
+- DataConversion::clearBit() to clear a specific bit.
+- DataConversion::toggleBit() to toggle a specific bit.
+These can be used as an alternative to Arduino's built-in bitRead() and bitWrite().
 */
 #ifdef ESP8266
 #include <ESP8266WiFi.h>
@@ -28,9 +28,6 @@ https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitwrite/
 #endif
 #include <ModbusIP_ESP8266.h>
 #include <DataConversion.h>
-
-// Create an instance of the DataConversion class
-DataConversion dtConv;
 
 /*
 The enum function is used to create an enumerated data type.
@@ -171,11 +168,11 @@ void setup()
   mb.Hreg(NR_STATE_16BIT_REGISTER, state16bitRegister);
   Serial.println("Register 0 BIN= " + String(state16bitRegister, BIN));
   delay(1500);
-  state16bitRegister = bitWrite(state16bitRegister, 7, HIGH);
-  Serial.println("Write 1 in bit 7 ");
+  state16bitRegister = DataConversion::setBit(state16bitRegister, 7);
+  Serial.println("Write 1 in bit 7 using DataConversion::setBit()");
   delay(500);
-  state16bitRegister = bitWrite(state16bitRegister, 14, HIGH);
-  Serial.println("Write 1 in bit 14 ");
+  state16bitRegister = DataConversion::setBit(state16bitRegister, 14);
+  Serial.println("Write 1 in bit 14 using DataConversion::setBit()");
   delay(500);
   mb.Hreg(NR_STATE_16BIT_REGISTER, state16bitRegister);
   Serial.println("Writing value in modbus variable ");
@@ -194,7 +191,7 @@ void setup()
   delay(500);
 
   // The mergeUint8ToUint16 function combines two 8-bit unsigned variables into one 16-bit unsigned variable.
-  varMergeInt8ToUInt16 = dtConv.mergeInt8ToUint16(varI8a, varI8b);
+  varMergeInt8ToUInt16 = DataConversion::mergeInt8ToUint16(varI8a, varI8b);
   Serial.println("Value merge varI8a + varI8b ");
   delay(500);
   // Write value to Modbus variable
@@ -216,7 +213,7 @@ void setup()
   delay(500);
 
   // The mergeUint8ToUint16 function combines two 8-bit unsigned variables into one 16-bit unsigned variable.
-  varMergeUint8ToUint16 = dtConv.mergeUint8ToUint16(varUi8a, varUi8b);
+  varMergeUint8ToUint16 = DataConversion::mergeUint8ToUint16(varUi8a, varUi8b);
   Serial.println("Value merge varUi8a + varUi8b ");
   delay(500);
   // Write value to Modbus variable
@@ -238,7 +235,7 @@ void setup()
   Serial.println("Write -2147483648 in variable varMergeUInt16ToInt32 ");
 
   // Splits a 32-bit integer into two 16-bit words.
-  dtConv.splitInt32ToUint16(varMergeUInt16ToInt32, varValueI32Part1, varValueI32Part2);
+  DataConversion::splitInt32ToUint16(varMergeUInt16ToInt32, varValueI32Part1, varValueI32Part2);
   delay(500);
   // Write value to Modbus variable
   mb.Hreg(NR_VALUEI32PART1, varValueI32Part1);
@@ -260,7 +257,7 @@ void setup()
   Serial.println("Write 4294967295 in variable varMergeUInt16ToInt32 ");
 
   // Separates a uint32_t value into two uint16_t values.
-  dtConv.splitUint32ToUint16(varMergeUInt16ToUInt32, varValueUi32Part1, varValueUi32Part2);
+  DataConversion::splitUint32ToUint16(varMergeUInt16ToUInt32, varValueUi32Part1, varValueUi32Part2);
   delay(500);
   // Write value to Modbus variable
   mb.Hreg(NR_VALUEUI32PART1, varValueUi32Part1);
@@ -279,7 +276,7 @@ void setup()
   varMergeUInt16ToFloat32 = 31.12345;
   Serial.println("Write 31.12345 in variable varMergeUInt16ToFloat32 ");
   // Separates a float value into two uint16_t values.
-  dtConv.splitFloat32ToUint16(varMergeUInt16ToFloat32, varFloatPart1, varFloatPart2);
+  DataConversion::splitFloat32ToUint16(varMergeUInt16ToFloat32, varFloatPart1, varFloatPart2);
   delay(500);
   // Write value to Modbus variable
   mb.Hreg(NR_FLOATPART1, varFloatPart1);
@@ -302,7 +299,7 @@ void setup()
   varMergeUInt16ToInt64 = -4294967295;
   Serial.println("Write -4294967295 in variable varMergeUInt16ToInt64 ");
   // Separates a int64 value into four uint16_t values.
-  dtConv.splitInt64ToUint16(varMergeUInt16ToInt64, varValueI64Part1, varValueI64Part2, varValueI64Part3, varValueI64Part4);
+  DataConversion::splitInt64ToUint16(varMergeUInt16ToInt64, varValueI64Part1, varValueI64Part2, varValueI64Part3, varValueI64Part4);
   delay(500);
   // Write value to Modbus variable
   mb.Hreg(NR_VALUEI64PART1, varValueI64Part1);
@@ -327,7 +324,7 @@ void setup()
   varMergeUInt16ToUInt64 = 84294967295;
   Serial.println("Write 84294967295 in variable varMergeUInt16ToUInt64 ");
   // Separates a int64 value into four uint16_t values.
-  dtConv.splitUint64ToUint16(varMergeUInt16ToUInt64, varValueUi64Part1, varValueUi64Part2, varValueUi64Part3, varValueUi64Part4);
+  DataConversion::splitUint64ToUint16(varMergeUInt16ToUInt64, varValueUi64Part1, varValueUi64Part2, varValueUi64Part3, varValueUi64Part4);
   delay(500);
   // Write value to Modbus variable
   mb.Hreg(NR_VALUEUI64PART1, varValueUi64Part1);
@@ -352,7 +349,7 @@ void setup()
   varMergeUInt16ToDouble = -12345.0123456789;
   Serial.println("Write -12345.023456789 in variable varMergeUInt16ToDouble ");
   // Separates a int64 value into four uint16_t values.
-  dtConv.splitDoubleToUint16(varMergeUInt16ToDouble, varValueDbPart1, varValueDbPart2, varValueDbPart3, varValueDbPart4);
+  DataConversion::splitDoubleToUint16(varMergeUInt16ToDouble, varValueDbPart1, varValueDbPart2, varValueDbPart3, varValueDbPart4);
   delay(500);
   // Write value to Modbus variable
   mb.Hreg(NR_VALUEDBPART1, varValueDbPart1);
@@ -445,40 +442,40 @@ void loop()
   // Yield to other tasks (if any)
   yield();
 
-  // Read individual bits from the state16bitRegister and store them in corresponding variables
-  bitValue00 = bitRead(state16bitRegister, 0);  // Read bit 0 from state16bitRegister and assign its value to bitValue00
-  bitValue01 = bitRead(state16bitRegister, 1);  // Read bit 1 from state16bitRegister and assign its value to bitValue01
-  bitValue02 = bitRead(state16bitRegister, 2);  // Read bit 2 from state16bitRegister and assign its value to bitValue02
-  bitValue03 = bitRead(state16bitRegister, 3);  // Read bit 3 from state16bitRegister and assign its value to bitValue03
-  bitValue04 = bitRead(state16bitRegister, 4);  // Read bit 4 from state16bitRegister and assign its value to bitValue04
-  bitValue05 = bitRead(state16bitRegister, 5);  // Read bit 5 from state16bitRegister and assign its value to bitValue05
-  bitValue06 = bitRead(state16bitRegister, 6);  // Read bit 6 from state16bitRegister and assign its value to bitValue06
-  bitValue07 = bitRead(state16bitRegister, 7);  // Read bit 7 from state16bitRegister and assign its value to bitValue07
-  bitValue08 = bitRead(state16bitRegister, 8);  // Read bit 8 from state16bitRegister and assign its value to bitValue08
-  bitValue09 = bitRead(state16bitRegister, 9);  // Read bit 9 from state16bitRegister and assign its value to bitValue09
-  bitValue10 = bitRead(state16bitRegister, 10); // Read bit 10 from state16bitRegister and assign its value to bitValue10
-  bitValue11 = bitRead(state16bitRegister, 11); // Read bit 11 from state16bitRegister and assign its value to bitValue11
-  bitValue12 = bitRead(state16bitRegister, 12); // Read bit 12 from state16bitRegister and assign its value to bitValue12
-  bitValue13 = bitRead(state16bitRegister, 13); // Read bit 13 from state16bitRegister and assign its value to bitValue13
-  bitValue14 = bitRead(state16bitRegister, 14); // Read bit 14 from state16bitRegister and assign its value to bitValue14
-  bitValue15 = bitRead(state16bitRegister, 15); // Read bit 15 from state16bitRegister and assign its value to bitValue15
+  // Read individual bits from the state16bitRegister and store them in corresponding variables using DataConversion::readBit()
+  bitValue00 = DataConversion::readBit(state16bitRegister, 0);  // Read bit 0
+  bitValue01 = DataConversion::readBit(state16bitRegister, 1);  // Read bit 1
+  bitValue02 = DataConversion::readBit(state16bitRegister, 2);  // Read bit 2
+  bitValue03 = DataConversion::readBit(state16bitRegister, 3);  // Read bit 3
+  bitValue04 = DataConversion::readBit(state16bitRegister, 4);  // Read bit 4
+  bitValue05 = DataConversion::readBit(state16bitRegister, 5);  // Read bit 5
+  bitValue06 = DataConversion::readBit(state16bitRegister, 6);  // Read bit 6
+  bitValue07 = DataConversion::readBit(state16bitRegister, 7);  // Read bit 7
+  bitValue08 = DataConversion::readBit(state16bitRegister, 8);  // Read bit 8
+  bitValue09 = DataConversion::readBit(state16bitRegister, 9);  // Read bit 9
+  bitValue10 = DataConversion::readBit(state16bitRegister, 10); // Read bit 10
+  bitValue11 = DataConversion::readBit(state16bitRegister, 11); // Read bit 11
+  bitValue12 = DataConversion::readBit(state16bitRegister, 12); // Read bit 12
+  bitValue13 = DataConversion::readBit(state16bitRegister, 13); // Read bit 13
+  bitValue14 = DataConversion::readBit(state16bitRegister, 14); // Read bit 14
+  bitValue15 = DataConversion::readBit(state16bitRegister, 15); // Read bit 15
 
   // The splitUint16ToInt8 function divides a 16-bit unsigned variable into two 8-bit signed variables.
-  dtConv.splitUint16ToInt8(varMergeInt8ToUInt16, varI8a, varI8b);
+  DataConversion::splitUint16ToInt8(varMergeInt8ToUInt16, varI8a, varI8b);
   // The splitUint16ToUint8 function divides a 16-bit unsigned variable into two 8-bit unsigned variables.
-  dtConv.splitUint16ToUint8(varMergeUint8ToUint16, varUi8a, varUi8b);
+  DataConversion::splitUint16ToUint8(varMergeUint8ToUint16, varUi8a, varUi8b);
   // Combines a high word and a low word into a 32-bit integer.
-  varMergeUInt16ToInt32 = dtConv.mergeUint16ToInt32(varValueI32Part1, varValueI32Part2);
+  varMergeUInt16ToInt32 = DataConversion::mergeUint16ToInt32(varValueI32Part1, varValueI32Part2);
   // Combines a high word and a low word into a 32-bit unsigned integer.
-  varMergeUInt16ToUInt32 = dtConv.mergeUint16ToUint32(varValueUi32Part1, varValueUi32Part2);
+  varMergeUInt16ToUInt32 = DataConversion::mergeUint16ToUint32(varValueUi32Part1, varValueUi32Part2);
   // Combines a high word and a low word into a 32-bit float.
-  varMergeUInt16ToFloat32 = dtConv.mergeUint16ToFloat32(varFloatPart1, varFloatPart2);
+  varMergeUInt16ToFloat32 = DataConversion::mergeUint16ToFloat32(varFloatPart1, varFloatPart2);
   // Combines four word into a 64-bit integer.
-  varMergeUInt16ToInt64 = dtConv.mergeUint16ToInt64(varValueI64Part1, varValueI64Part2, varValueI64Part3, varValueI64Part4);
+  varMergeUInt16ToInt64 = DataConversion::mergeUint16ToInt64(varValueI64Part1, varValueI64Part2, varValueI64Part3, varValueI64Part4);
   // Combines four word into a 64-bit unsigned integer.
-  varMergeUInt16ToUInt64 = dtConv.mergeUint16ToUint64(varValueUi64Part1, varValueUi64Part2, varValueUi64Part3, varValueUi64Part4);
+  varMergeUInt16ToUInt64 = DataConversion::mergeUint16ToUint64(varValueUi64Part1, varValueUi64Part2, varValueUi64Part3, varValueUi64Part4);
   // Combines four word into a 64-bit double.
-  varMergeUInt16ToDouble = dtConv.mergeUint16ToDouble(varValueDbPart1, varValueDbPart2, varValueDbPart3, varValueDbPart4);
+  varMergeUInt16ToDouble = DataConversion::mergeUint16ToDouble(varValueDbPart1, varValueDbPart2, varValueDbPart3, varValueDbPart4);
 
   /* *Print the values of the variables* */
   // Get the current time

@@ -29,9 +29,6 @@ https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitwrite/
 #include <ModbusIP_ESP8266.h>
 #include <DataConversion.h>
 
-// Create an instance of the DataConversion class
-DataConversion dtConv;
-
 /*
 The enum function is used to create an enumerated data type.
 In this case, it is creating the MbipRegister enumeration type.
@@ -107,7 +104,7 @@ void setup()
   Serial.println("Write -2147483648 in variable varMergeUInt16ToInt32 ");
 
   // Splits a 32-bit integer into two 16-bit words.
-  dtConv.splitInt32ToUint16(varMergeUInt16ToInt32, varValueI32Part1, varValueI32Part2);
+  DataConversion::splitInt32ToUint16(varMergeUInt16ToInt32, varValueI32Part1, varValueI32Part2);
   delay(500);
   // Write value to Modbus variable
   mb.Hreg(NR_VALUEI32PART1, varValueI32Part1);
@@ -141,7 +138,7 @@ void loop()
   yield();
 
   // Combines a high word and a low word into a 32-bit integer.
-  varMergeUInt16ToInt32 = dtConv.mergeUint16ToInt32(varValueI32Part1, varValueI32Part2);
+  varMergeUInt16ToInt32 = DataConversion::mergeUint16ToInt32(varValueI32Part1, varValueI32Part2);
 
   /* *Print the values of the variables* */
   // Get the current time

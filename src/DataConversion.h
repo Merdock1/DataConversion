@@ -161,6 +161,42 @@ public:
      * @param dblPart4 Reference to the resulting fourth part.
      */
     static void splitDoubleToUint16(double dblValue, uint16_t &dblPart1, uint16_t &dblPart2, uint16_t &dblPart3, uint16_t &dblPart4);
+
+    /**
+     * Sets a specific bit in a uint16_t value.
+     *
+     * @param data The original uint16_t value.
+     * @param bitPosition The position of the bit to set (0-15).
+     * @return The uint16_t value with the specified bit set.
+     */
+    static uint16_t setBit(uint16_t data, uint8_t bitPosition);
+
+    /**
+     * Clears a specific bit in a uint16_t value.
+     *
+     * @param data The original uint16_t value.
+     * @param bitPosition The position of the bit to clear (0-15).
+     * @return The uint16_t value with the specified bit cleared.
+     */
+    static uint16_t clearBit(uint16_t data, uint8_t bitPosition);
+
+    /**
+     * Reads a specific bit from a uint16_t value.
+     *
+     * @param data The uint16_t value to read from.
+     * @param bitPosition The position of the bit to read (0-15).
+     * @return True if the bit is set (1), false if it is clear (0).
+     */
+    static bool readBit(uint16_t data, uint8_t bitPosition);
+
+    /**
+     * Toggles a specific bit in a uint16_t value.
+     *
+     * @param data The original uint16_t value.
+     * @param bitPosition The position of the bit to toggle (0-15).
+     * @return The uint16_t value with the specified bit toggled.
+     */
+    static uint16_t toggleBit(uint16_t data, uint8_t bitPosition);
 };
 
 #endif

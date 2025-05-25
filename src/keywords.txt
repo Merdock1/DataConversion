@@ -14,3 +14,7 @@ mergeUint16ToUint64     KEYWORD1
 splitUint64ToUint16     KEYWORD1
 mergeUint16ToDouble     KEYWORD1
 splitDoubleToUint16     KEYWORD1
+setBit                  KEYWORD1
+clearBit                KEYWORD1
+readBit                 KEYWORD1
+toggleBit               KEYWORD1
